@@ -1,0 +1,71 @@
+{& schema %}
+{
+    "name": "Custom Product Grid",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Product",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Select product"
+          }
+        ]
+      }
+    ],
+    "max_blocks": 6
+}
+{% endschema %}
+<section class="custom-grid">
+  <div class="grid-container">
+    {% for block in sections.blocks %}
+      {% assign product = all_products[block.setting.product] %}
+      {% if product %}
+        <div class="grid-item" data-handle="{{ product.handle }}">
+          <img src="{{ product.featured_img | img_url: '400x' }}" alt='{{ product.title }}">
+          <h3>{{ product.title }}</h3>
+          <p>{{ product.price | money }}</p>
+          <button class="open-popup" data-handle="{{ product.handle }}">View</button>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+.custom-grid .grid-container {
+    display: grid;
+    grid-template-colums: repeat(3, 1fr);
+    gap: 20px;
+}
+.grid-item {
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+
+}
+.grid-item img {
+    max-width: 100%;
+}
+.open-popup {
+    margin-top: 10px;
+    padding: 8px 15px;
+    border: none;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+
+}
+.open-popup:hover {
+    background: #e63946;
+}
+@media (max-width: 768px) {
+    .custom-grid .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
